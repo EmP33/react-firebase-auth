@@ -1,5 +1,6 @@
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
 import { Container } from "react-bootstrap";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Router>
       </div>

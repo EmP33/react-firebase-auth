@@ -4,31 +4,27 @@ import { Form, Button, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../store/auth-slice";
+import { login } from "../store/auth-slice";
 import { authActions } from "../store/auth-slice";
 
 import { auth } from "../firebase";
 
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const Signup = () => {
-  const navigate = useNavigate();
+const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const passwordConfirmationRef = useRef();
+
   const error = useSelector((state) => state.auth.error);
   const loading = useSelector((state) => state.auth.loading);
   const [curUser, setCurUser] = useState({});
   const { currentUser } = auth;
 
-  const createAccountHandler = (e) => {
+  const loginHandler = (e) => {
     e.preventDefault();
-    if (passwordRef.current.value === passwordConfirmationRef.current.value) {
-      dispatch(signup(emailRef.current.value, passwordRef.current.value));
-    }
-
-    dispatch(authActions.setError("Passwords do not match"));
+    dispatch(login(emailRef.current.value, passwordRef.current.value));
   };
 
   useEffect(() => {
@@ -48,7 +44,7 @@ const Signup = () => {
     <>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Sign Up</h2>
+          <h2 className="text-center mb-4">Log In</h2>
           {auth.currentUser && auth.currentUser.email}
           {error && <Alert variant="danger">{error}</Alert>}
           <Form>
@@ -60,31 +56,24 @@ const Signup = () => {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" required ref={passwordRef} />
             </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control
-                type="password"
-                required
-                ref={passwordConfirmationRef}
-              />
-            </Form.Group>
+
             <Button
               disabled={loading}
               className="w-100"
               type="submit"
-              onClick={createAccountHandler}
+              onClick={loginHandler}
             >
               {loading && <AiOutlineLoading3Quarters className="spin" />}
-              {!loading && "Sign Up"}
+              {!loading && "Log in"}
             </Button>
           </Form>
         </Card.Body>
       </Card>
       <div className="w100 text-center mt-2">
-        Already have an account? <Link to="/login">Log in</Link>
+        Need an account? <Link to="/signup">Sign up</Link>
       </div>
     </>
   );
 };
 
-export default Signup;
+export default Login;

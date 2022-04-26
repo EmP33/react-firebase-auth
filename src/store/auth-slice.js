@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 import { auth } from "../firebase";
 
@@ -46,6 +50,35 @@ export const signup = (email, password) => {
     dispatch(authActions.switchLoading());
     await sendRequest();
     dispatch(authActions.switchLoading());
+  };
+};
+
+export const login = (email, password) => {
+  return async (dispatch) => {
+    const sendRequest = async () => {
+      dispatch(authActions.setError(""));
+      try {
+        const user = await signInWithEmailAndPassword(auth, email, password);
+        console.log(auth.currentUser);
+        // dispatch(authActions.setCurrentUser(user));
+      } catch (err) {
+        dispatch(authActions.setError(err.message));
+        console.log(err.message);
+      }
+    };
+    dispatch(authActions.switchLoading());
+    await sendRequest();
+    dispatch(authActions.switchLoading());
+  };
+};
+
+export const logout = () => {
+  return async (dispatch) => {
+    const sendRequest = async () => {
+      await signOut(auth);
+    };
+
+    await sendRequest();
   };
 };
 
