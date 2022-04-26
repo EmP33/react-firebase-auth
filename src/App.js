@@ -1,81 +1,24 @@
-import { useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import Signup from "./components/Signup";
+import Dashboard from "./components/Dashboard";
+import { Container } from "react-bootstrap";
 
-import { auth } from "./firebase";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-
-  const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-      console.log(user);
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      console.log(user);
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-  const logout = async () => {
-    await signOut(auth);
-  };
-
   return (
-    <div className="App">
-      <div>
-        <h3> Register User </h3>
-        <input
-          placeholder="Email..."
-          onChange={(e) => setRegisterEmail(e.target.value)}
-        />
-        <input
-          placeholder="Password..."
-          onChange={(e) => setRegisterPassword(e.target.value)}
-        />
-
-        <button onClick={register}> Create User</button>
+    <Container
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh" }}
+    >
+      <div className="w-100" style={{ maxWidth: "400px" }}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </Router>
       </div>
-
-      <div>
-        <h3> Login </h3>
-        <input
-          placeholder="Email..."
-          onChange={(e) => setLoginEmail(e.target.value)}
-        />
-        <input
-          placeholder="Password..."
-          onChange={(e) => setLoginPassword(e.target.value)}
-        />
-
-        <button onClick={login}> Login</button>
-      </div>
-
-      <h4> User Logged In: </h4>
-      {auth?.currentUser?.email}
-
-      <button onClick={logout}> Sign Out </button>
-    </div>
+    </Container>
   );
 }
 
