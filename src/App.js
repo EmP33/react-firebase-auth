@@ -3,6 +3,7 @@ import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
+import UpdateProfile from "./components/UpdateProfile";
 
 import { Container } from "react-bootstrap";
 import { auth } from "./firebase";
@@ -37,7 +38,11 @@ function App() {
             />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />{" "}
+            <Route
+              path="/update-profile"
+              element={user ? <UpdateProfile /> : <Navigate to="/login" />}
+            />
           </Routes>
         </Router>
       </div>

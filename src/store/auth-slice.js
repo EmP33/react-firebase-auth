@@ -4,6 +4,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  updateEmail,
+  updatePassword,
 } from "firebase/auth";
 
 import { auth } from "../firebase";
@@ -60,7 +62,6 @@ export const login = (email, password) => {
       dispatch(authActions.setError(""));
       try {
         const user = await signInWithEmailAndPassword(auth, email, password);
-        console.log(auth.currentUser);
         // dispatch(authActions.setCurrentUser(user));
       } catch (err) {
         dispatch(authActions.setError(err.message));
@@ -89,6 +90,38 @@ export const resetPassword = (email) => {
       dispatch(authActions.setError(""));
       try {
         return sendPasswordResetEmail(auth, email);
+      } catch (err) {
+        dispatch(authActions.setError(err.message));
+      }
+    };
+    dispatch(authActions.switchLoading());
+    await sendRequest();
+    dispatch(authActions.switchLoading());
+  };
+};
+
+export const changeEmail = (email) => {
+  return async (dispatch) => {
+    const sendRequest = async () => {
+      dispatch(authActions.setError(""));
+      try {
+        return updateEmail(auth.currentUser, email);
+      } catch (err) {
+        dispatch(authActions.setError(err.message));
+      }
+    };
+    dispatch(authActions.switchLoading());
+    await sendRequest();
+    dispatch(authActions.switchLoading());
+  };
+};
+
+export const changePassword = (password) => {
+  return async (dispatch) => {
+    const sendRequest = async () => {
+      dispatch(authActions.setError(""));
+      try {
+        return updatePassword(auth.currentUser, password);
       } catch (err) {
         dispatch(authActions.setError(err.message));
       }
