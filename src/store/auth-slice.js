@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
 import { auth } from "../firebase";
@@ -79,6 +80,22 @@ export const logout = () => {
     };
 
     await sendRequest();
+  };
+};
+
+export const resetPassword = (email) => {
+  return async (dispatch) => {
+    const sendRequest = async () => {
+      dispatch(authActions.setError(""));
+      try {
+        return sendPasswordResetEmail(auth, email);
+      } catch (err) {
+        dispatch(authActions.setError(err.message));
+      }
+    };
+    dispatch(authActions.switchLoading());
+    await sendRequest();
+    dispatch(authActions.switchLoading());
   };
 };
 

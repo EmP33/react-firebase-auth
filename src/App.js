@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
+import ForgotPassword from "./components/ForgotPassword";
 
 import { Container } from "react-bootstrap";
 import { auth } from "./firebase";
@@ -30,15 +31,13 @@ function App() {
       <div className="w-100" style={{ maxWidth: "400px" }}>
         <Router>
           <Routes>
-            {
-              <Route
-                path="/"
-                element={user ? <Dashboard /> : <Navigate to="/login" />}
-              />
-            }
-
+            <Route
+              path="/"
+              element={user ? <Dashboard /> : <Navigate to="/login" />}
+            />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
           </Routes>
         </Router>
       </div>
