@@ -17,6 +17,7 @@ const ForgotPassword = () => {
   const loading = useSelector((state) => state.auth.loading);
   const [message, setMessage] = useState("");
 
+  /* "When the user clicks the submit button, the resetPasswordHandler function is called, which calls the resetPassword function*/
   const resetPasswordHandler = async (e) => {
     setMessage("");
     e.preventDefault();
